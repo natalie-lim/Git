@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -38,8 +40,22 @@ public class blob{
         }
     }
 
-    public static void read(File txt)
+    public static void write(String fileName, String content)
     {
+        try
+        {
+            FileWriter fw = new FileWriter(fileName);
+            fw.write(content);
+            fw.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public static String read(File txt){
+        String stringifiedFile = "";
         try 
         {
             File myObj = txt;
@@ -47,7 +63,7 @@ public class blob{
             while(myReader.hasNextLine()) 
             {
               String data = myReader.nextLine();
-              System.out.println(data);
+              stringifiedFile = stringifiedFile + data;
             }
             myReader.close();
           } 
@@ -56,6 +72,7 @@ public class blob{
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        return stringifiedFile;
     }
 
 
