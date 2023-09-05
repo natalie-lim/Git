@@ -12,6 +12,9 @@ public class Blob{
         Blob blob = new Blob("test.txt");
     }
 
+    //Takes a String Filename and reads its contents
+    //Hash the content to another String variable
+    //Writes content to a fileName with Hash to Objects
     public Blob(String fileName){
         File obj = new File(fileName);
         String content = read(obj);
@@ -19,37 +22,23 @@ public class Blob{
         write(hashed, content);
     }
 
+    //Hashes String
     public static String encryptThisString(String input){
         try {
-            // getInstance() method is called with algorithm SHA-1
             MessageDigest md = MessageDigest.getInstance("SHA-1");
- 
-            // digest() method is called
-            // to calculate message digest of the input string
-            // returned as array of byte
             byte[] messageDigest = md.digest(input.getBytes());
- 
-            // Convert byte array into signum representation
             BigInteger no = new BigInteger(1, messageDigest);
- 
-            // Convert message digest into hex value
             String hashtext = no.toString(16);
- 
-            // Add preceding 0s to make it 32 bit
             while (hashtext.length() < 32) {
                 hashtext = "0" + hashtext;
             }
- 
-            // return the HashText
             return hashtext;
-        }
- 
-        // For specifying wrong message digest algorithms
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
+    //Reads a file and returns it as a String
     public static String read(File txt){
         String content = "";
         try 
@@ -72,6 +61,7 @@ public class Blob{
         return content;
     }
 
+    //Writes fileName with content to Objects directory
     public static void write(String fileName, String content){
         try
         {
