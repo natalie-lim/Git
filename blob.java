@@ -7,9 +7,19 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
-public class blob{
-    public static String encryptThisString(String input)
-    {
+public class Blob{
+    public static void main(String[] args){
+        Blob blob = new Blob("test.txt");
+    }
+
+    public Blob(String txt){
+        File obj = new File(txt);
+        String content = read(obj);
+        String hashed = encryptThisString(content);
+        write(hashed, content);
+    }
+
+    public static String encryptThisString(String input){
         try {
             // getInstance() method is called with algorithm SHA-1
             MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -61,13 +71,7 @@ public class blob{
         return stringifiedFile;
     }
 
-    public static String hashFile(File file){
-        String fileData = read(file);
-        return encryptThisString(fileData);
-    }
-
-    public static void write(String fileName, String content)
-    {
+    public static void write(String fileName, String content){
         try
         {
             FileWriter fw = new FileWriter(fileName);
@@ -79,8 +83,4 @@ public class blob{
             e.printStackTrace();
         }
     }
-
-
-
-
 }
