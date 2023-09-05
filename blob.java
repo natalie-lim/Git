@@ -56,6 +56,7 @@ public class Blob{
         {
             File myObj = txt;
             Scanner myReader = new Scanner(myObj);
+            System.out.println("Reading file.");
             while(myReader.hasNextLine()) 
             {
               String data = myReader.nextLine();
@@ -74,7 +75,8 @@ public class Blob{
     public static void write(String fileName, String content){
         try
         {
-            FileWriter fw = new FileWriter(fileName);
+            File file = new File("Objects", fileName);
+            FileWriter fw = new FileWriter(file);
             fw.write(content);
             fw.close();
             System.out.println("Successfully wrote to the file.");
