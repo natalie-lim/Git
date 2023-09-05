@@ -1,6 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 public class blob{
     public static String encryptThisString(String input)
@@ -34,6 +37,28 @@ public class blob{
             throw new RuntimeException(e);
         }
     }
+
+    public static void read(File txt)
+    {
+        try 
+        {
+            File myObj = txt;
+            Scanner myReader = new Scanner(myObj);
+            while(myReader.hasNextLine()) 
+            {
+              String data = myReader.nextLine();
+              System.out.println(data);
+            }
+            myReader.close();
+          } 
+        catch (FileNotFoundException e) 
+        {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }
