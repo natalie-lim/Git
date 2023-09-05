@@ -40,20 +40,6 @@ public class blob{
         }
     }
 
-    public static void write(String fileName, String content)
-    {
-        try
-        {
-            FileWriter fw = new FileWriter(fileName);
-            fw.write(content);
-            fw.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
     public static String read(File txt){
         String stringifiedFile = "";
         try 
@@ -73,6 +59,25 @@ public class blob{
             e.printStackTrace();
         }
         return stringifiedFile;
+    }
+
+    public static String hashFile(File file){
+        String fileData = read(file);
+        return encryptThisString(fileData);
+    }
+
+    public static void write(String fileName, String content)
+    {
+        try
+        {
+            FileWriter fw = new FileWriter(fileName);
+            fw.write(content);
+            fw.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
 
