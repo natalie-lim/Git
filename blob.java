@@ -12,8 +12,8 @@ public class Blob{
         Blob blob = new Blob("test.txt");
     }
 
-    public Blob(String txt){
-        File obj = new File(txt);
+    public Blob(String fileName){
+        File obj = new File(fileName);
         String content = read(obj);
         String hashed = encryptThisString(content);
         write(hashed, content);
@@ -51,7 +51,7 @@ public class Blob{
     }
 
     public static String read(File txt){
-        String stringifiedFile = "";
+        String content = "";
         try 
         {
             File myObj = txt;
@@ -60,7 +60,7 @@ public class Blob{
             while(myReader.hasNextLine()) 
             {
               String data = myReader.nextLine();
-              stringifiedFile = stringifiedFile + data;
+              content = content + data;
             }
             myReader.close();
           } 
@@ -69,7 +69,7 @@ public class Blob{
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        return stringifiedFile;
+        return content;
     }
 
     public static void write(String fileName, String content){
