@@ -9,10 +9,12 @@ import java.util.Scanner;
 import java.io.ByteArrayOutputStream;
 import java.util.zip.*;
 
-
 public class Blob{
     public static void main(String[] args) throws IOException{
-        Blob blob = new Blob("test.txt");
+        index cool  = new index();
+        cool.init();
+
+        // Blob blob = new Blob("test.txt");
     }
 
     //Takes a String Filename and reads its contents
