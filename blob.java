@@ -12,14 +12,12 @@ import java.util.zip.*;
 public class Blob{
     public static void main(String[] args) throws IOException{
         index cool  = new index();
-        // cool.init();
-        // boolean check = cool.checkIfUnique("index.txt", "anotherFile.txt");
-        // System.out.println(check);
-        cool.add("anotherFile.txt");
-        // cool.add("test.txt");
-        // cool.remove("test.txt");
-
-        // Blob blob = new Blob("test.txt");
+        cool.init();
+        
+        cool.add("test1.txt");
+        cool.add("test2.txt");
+        
+        // cool.remove("test2.txt");
     }
 
     //Creates a blob, which is a has of the compressed 
