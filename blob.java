@@ -12,22 +12,27 @@ import java.util.zip.*;
 public class Blob{
     public static void main(String[] args) throws IOException{
         index cool  = new index();
-        cool.init();
+        // cool.init();
+        // boolean check = cool.checkIfUnique("index.txt", "anotherFile.txt");
+        // System.out.println(check);
+        cool.add("anotherFile.txt");
+        // cool.add("test.txt");
+        // cool.remove("test.txt");
 
         // Blob blob = new Blob("test.txt");
     }
 
-    //Takes a String Filename and reads its contents
-    //Hash the content to another String variable
-    //Writes content to a fileName with Hash to Objects
+    //Creates a blob, which is a has of the compressed 
+    //contents of a given file, then writes it to objects folder
     public Blob(String fileName) throws IOException{
         File obj = new File(fileName);
         String content = read(obj);
         String compressedContent = compress(content);
         String hashed = encryptThisString(compressedContent);
-        write(hashed, compressedContent, "Objects");
+        write(hashed, content, "Objects");
     }
 
+    //Returns compressed version of String
     public static String compress(String str) throws IOException{ 
         if (str == null || str.length() == 0) {
             return str;
@@ -63,7 +68,6 @@ public class Blob{
         {
             File myObj = txt;
             Scanner myReader = new Scanner(myObj);
-            System.out.println("Reading file.");
             while(myReader.hasNextLine()) 
             {
               String data = myReader.nextLine();
@@ -73,13 +77,12 @@ public class Blob{
           } 
         catch (FileNotFoundException e) 
         {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
         return content;
     }
 
-    //Writes fileName with content to Objects directory
+    //Writes to given directory
     public static void write(String fileName, String content, String directory){
         try
         {
@@ -87,13 +90,14 @@ public class Blob{
             FileWriter fw = new FileWriter(file);
             fw.write(content);
             fw.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to " + fileName);
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
 
+    //Write to local directory
     public static void write(String fileName, String content){
         try
         {
@@ -101,11 +105,9 @@ public class Blob{
             FileWriter fw = new FileWriter(file);
             fw.write(content);
             fw.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to " + fileName);
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
-
 }
