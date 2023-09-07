@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -11,13 +12,14 @@ import java.util.zip.*;
 
 public class Blob{
     public static void main(String[] args) throws IOException{
-        Index cool  = new Index();
-        // cool.init();
+        Index index  = new Index();
+        index.init();
         
-        // cool.add("test1.txt");
-        cool.add("test2.txt");
+        index.add("test1.txt");
+        // index.add("test2.txt");
+        // index.add("text3.txt");
         
-        // cool.remove("test2.txt");
+        // index.remove("test2.txt");
     }
 
     //Creates a blob, which is a has of the compressed 
@@ -25,28 +27,29 @@ public class Blob{
     public Blob(String fileName) throws IOException{
         File obj = new File(fileName);
         String content = read(obj);
-        String compressedContent = compress(content);
+        byte[] compressedContent = compress(content);
         String hashed = encryptThisString(compressedContent);
-        write(hashed, compressedContent, "Objects");
+        write(hashed, compressedContent, "objects");
     }
 
     //Returns compressed version of String
-    public static String compress(String str) throws IOException{ 
-        if (str == null || str.length() == 0) {
-            return str;
-        }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        GZIPOutputStream gzip = new GZIPOutputStream(out);
-        gzip.write(str.getBytes());
-        gzip.close();
-        return out.toString("ISO-8859-1");
+    public static byte[] compress(String str) throws IOException{ 
+        if ((str == null) || (str.length() == 0)) {
+            return null;
+          }
+          ByteArrayOutputStream obj = new ByteArrayOutputStream();
+          GZIPOutputStream gzip = new GZIPOutputStream(obj);
+          gzip.write(str.getBytes("UTF-8"));
+          gzip.flush();
+          gzip.close();
+          return obj.toByteArray();
     }
 
     //Hashes String
-    public static String encryptThisString(String input){
+    public static String encryptThisString(byte[] input){
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] messageDigest = md.digest(input.getBytes());
+            byte[] messageDigest = md.digest(input);
             BigInteger no = new BigInteger(1, messageDigest);
             String hashtext = no.toString(16);
             while (hashtext.length() < 32) {
@@ -80,13 +83,12 @@ public class Blob{
     }
 
     //Writes to given directory
-    public static void write(String fileName, String content, String directory){
+    public static void write(String fileName, byte[] content, String directory){
         try
         {
-            File file = new File(directory, fileName);
-            FileWriter fw = new FileWriter(file);
-            fw.write(content);
-            fw.close();
+            try (FileOutputStream fos = new FileOutputStream("Objects/" + fileName)) {
+                fos.write(content);
+            }
             System.out.println("Successfully wrote to " + fileName);
         } catch (IOException e) {
             System.out.println("An error occurred.");

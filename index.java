@@ -10,27 +10,26 @@ import java.util.Scanner;
 public class Index{
     //initilizes Repository with an index.txt and Objects dir
     public void init(){
-        File index = new File("index.txt");
+        File index = new File("index");
         if (!index.exists()) {
-            Blob.write("index.txt", "");
+            Blob.write("index", "");
         }
-        File Objects = new File("Objects");
+        File Objects = new File("objects");
         if (!Objects.exists()){
             Objects.mkdirs();
         }
     }
 
     public void add(String fileName) throws IOException{
-        if (!checkIfUnique("index.txt", fileName)){
+        //Creates a Blob of fileName that gets added to Objects
+        Blob blob = new Blob(fileName);
+        if (!checkIfUnique("index", fileName)){
             System.out.println("File Found");
             return;
         }
-
-        //Creates a Blob of fileName that gets added to Objects
-        Blob blob = new Blob(fileName);
         File f = new File(fileName);
         String toAdd = fileName + " : " + Blob.encryptThisString(Blob.compress(Blob.read(f)));
-        try (FileWriter file = new FileWriter("index.txt", true);
+        try (FileWriter file = new FileWriter("index", true);
             BufferedWriter b = new BufferedWriter(file);
             PrintWriter p = new PrintWriter(b);){
                 p.println(toAdd);
@@ -38,7 +37,7 @@ public class Index{
     }
 
     public void remove(String fileName) throws IOException{
-        File inputFile = new File("index.txt");
+        File inputFile = new File("index");
         File tempFile = new File("myTempFile.txt");
 
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
