@@ -25,6 +25,8 @@ public class Index{
             System.out.println("File Found");
             return;
         }
+
+        //Creates a Blob of fileName that gets added to Objects
         Blob blob = new Blob(fileName);
         File f = new File(fileName);
         String toAdd = fileName + " : " + Blob.encryptThisString(Blob.compress(Blob.read(f)));

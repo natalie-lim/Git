@@ -11,10 +11,10 @@ import java.util.zip.*;
 
 public class Blob{
     public static void main(String[] args) throws IOException{
-        index cool  = new index();
-        cool.init();
+        Index cool  = new Index();
+        // cool.init();
         
-        cool.add("test1.txt");
+        // cool.add("test1.txt");
         cool.add("test2.txt");
         
         // cool.remove("test2.txt");
@@ -27,7 +27,7 @@ public class Blob{
         String content = read(obj);
         String compressedContent = compress(content);
         String hashed = encryptThisString(compressedContent);
-        write(hashed, content, "Objects");
+        write(hashed, compressedContent, "Objects");
     }
 
     //Returns compressed version of String
@@ -35,7 +35,6 @@ public class Blob{
         if (str == null || str.length() == 0) {
             return str;
         }
-
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         GZIPOutputStream gzip = new GZIPOutputStream(out);
         gzip.write(str.getBytes());
