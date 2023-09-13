@@ -18,13 +18,21 @@ public class TreeTest {
     @Test
     public void testAdd() throws IOException {
         Tree tree = new Tree();
-        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
-        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
+        tree.add("blob : 01d82591292494afd1602d175e165f94992f6f5f : file2.txt");
+        tree.add("blob : f1d82236ab908c86ed095023b1d2e6ddf78a6d83 : file3.txt");
+        tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
+        tree.add("tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976");
+
+        assertEquals("649a3d7f1b034f8ec9954b7411c63818475b2385", tree.getHash());
 
         assertEquals(
-                "tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b\nblob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt",
-                decompress("objects/" + tree.getHash()));
+                "blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt\n" + //
+                        "blob : 01d82591292494afd1602d175e165f94992f6f5f : file2.txt\n" + //
+                        "blob : f1d82236ab908c86ed095023b1d2e6ddf78a6d83 : file3.txt\n" + //
+                        "tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b\n" + //
+                        "tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976",
+                Tree.read("objects/" + tree.getHash()));
 
         // cleanup cause the teardown didnt work for somereason:
         Files.deleteIfExists(Paths.get("objects/" + tree.getHash()));
@@ -43,27 +51,15 @@ public class TreeTest {
         tree.remove("bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.remove("file1.txt");
 
+        assertEquals("aa3abb9509cfed41b4cda151c92e31bcd054d311", tree.getHash());
+
         assertEquals(
                 "tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976\nblob : 01d82591292494afd1602d175e165f94992f6f5f : file2.txt",
-                decompress("objects/" + tree.getHash()));
+                Tree.read("objects/" + tree.getHash()));
 
         // cleanup cause the teardown didnt work for somereason:
         Files.deleteIfExists(Paths.get("objects/" + tree.getHash()));
 
-    }
-
-    public String decompress(String path) throws FileNotFoundException, IOException {
-        try (
-                FileInputStream fis = new FileInputStream(path);
-                GZIPInputStream gis = new GZIPInputStream(fis);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = gis.read(buffer)) != -1) {
-                bos.write(buffer, 0, len);
-            }
-            return bos.toString("UTF-8");
-        }
     }
 
 }

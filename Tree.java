@@ -18,7 +18,6 @@ public class Tree {
         t.add("tree : penis");
         t.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
         t.remove("file1.txt");
-        System.out.println(decompress("objects/" + t.getHash()));
 
     }
 
@@ -37,26 +36,40 @@ public class Tree {
             }
             content = '\n' + content;
         }
-        byte[] compressed = Blob.compress(content);
+        System.out.println(content);
+        // byte[] compressed = Blob.compress(content);
         if (hash == "") {
-            hash = Blob.encryptThisString(compressed);
-            write(hash, compressed, "objects", true);
+            hash = Blob.encryptThisString(content.getBytes());
+            write(hash, content.getBytes(), "objects", true);
         } else {
             File oldFile = new File("objects/" + hash);
-            write(hash, compressed, "objects", true);
-            hash = getSha(new File("objects/" + hash), content);
+            write(hash, content.getBytes(), "objects", true);
+            hash = getSha(new File("objects/" + hash));
             File newFile = new File("objects/" + hash);
             oldFile.renameTo(newFile);
         }
 
     }
 
+    public static String read(String filename) throws FileNotFoundException {
+        String submit = "";
+        try (Scanner scan = new Scanner(new File(filename))) {
+            while (scan.hasNext()) {
+                String line = scan.nextLine().toString();
+                submit += line;
+                if (scan.hasNext()) {
+                    submit += '\n';
+                }
+            }
+        }
+        return submit;
+    }
+
     public void remove(String delteFileName) throws FileNotFoundException, IOException {
-        String fileContents = decompress("objects/" + hash);
         String keepString = "";
         boolean didDeleteAnything = false;
 
-        try (Scanner scan = new Scanner(fileContents)) {
+        try (Scanner scan = new Scanner(new File("objects/" + hash))) {
             while (scan.hasNext()) {
                 String line = scan.nextLine().toString();
                 String[] split = line.split("\\s+");
@@ -73,26 +86,28 @@ public class Tree {
         }
         keepString = keepString.trim();
 
-        byte[] compressed = Blob.compress(keepString);
+        // byte[] compressed = Blob.compress(keepString);
         File oldFile = new File("objects/" + hash);
-        write(hash, compressed, "objects", false);
-        hash = Blob.encryptThisString(compressed);
+        write(hash, keepString.getBytes(), "objects", false);
+        hash = Blob.encryptThisString(keepString.getBytes());
         File newFile = new File("objects/" + hash);
         oldFile.renameTo(newFile);
 
     }
 
-    private String getSha(File file, String newContent) {
+    private String getSha(File file) {
         String content = "";
         try {
             File myObj = file;
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                System.out.println(data);
                 content = content + data;
+                if (myReader.hasNextLine()) {
+                    content += '\n';
+                }
+
             }
-            content += newContent;
             myReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -102,8 +117,7 @@ public class Tree {
     }
 
     public boolean checkIfUnique(String fileToSearchIn, String content) throws IOException {
-        String fileContents = decompress(fileToSearchIn);
-        try (Scanner scan = new Scanner(fileContents)) {
+        try (Scanner scan = new Scanner(new File(fileToSearchIn))) {
             while (scan.hasNext()) {
                 String line = scan.nextLine().toString();
                 if (line.equals(content)) {
@@ -118,26 +132,10 @@ public class Tree {
         try {
             try (FileOutputStream fos = new FileOutputStream("Objects/" + fileName, append)) {
                 fos.write(content);
-
             }
-            System.out.println("Successfully wrote to " + fileName);
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
-        }
-    }
-
-    public static String decompress(String path) throws FileNotFoundException, IOException {
-        try (
-                FileInputStream fis = new FileInputStream(path);
-                GZIPInputStream gis = new GZIPInputStream(fis);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = gis.read(buffer)) != -1) {
-                bos.write(buffer, 0, len);
-            }
-            return bos.toString("UTF-8");
         }
     }
 
