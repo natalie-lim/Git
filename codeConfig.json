@@ -1,0 +1,110 @@
+[
+    {
+        "className": "Index",
+        "constructorConfigs": [],
+        "methodConfigs": [
+            {
+                "methodName": "init",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "add",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "FILE_NAME"
+                ]
+            },
+            {
+                "methodName": "remove",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "FILE_NAME"
+                ]
+            },
+            {
+                "methodName": "checkIfUnique",
+                "parameters": [
+                    "String",
+                    "String"
+                ],
+                "values": [
+                    "FILE_TO_SEARCH_IN",
+                    "FILE_TO_SEARCH"
+                ]
+            }
+        ]
+    }
+    ,
+    {
+        "className": "Blob",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [
+                    "String"
+                ],
+                "values": [
+                    "FILE_NAME"
+                ]
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "compress",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "CONTENT_STRING"
+                ]
+            },
+            {
+                "methodName": "encryptThisString",
+                "parameters": [
+                    "byte[]"
+                ],
+                "values": [
+                    "BYTE_ARRAY_CONTENT"
+                ]
+            },
+            {
+                "methodName": "read",
+                "parameters": [
+                    "File"
+                ],
+                "values": [
+                    "FILE_OBJECT"
+                ]
+            },
+            {
+                "methodName": "write",
+                "parameters": [
+                    "String",
+                    "byte[]",
+                    "String"
+                ],
+                "values": [
+                    "FILE_NAME",
+                    "BYTE_ARRAY_CONTENT",
+                    "DIRECTORY_NAME"
+                ]
+            },
+            {
+                "methodName": "write",
+                "parameters": [
+                    "String",
+                    "String"
+                ],
+                "values": [
+                    "FILE_NAME",
+                    "CONTENT_STRING"
+                ]
+            }
+        ]
+    }
+    
+]
