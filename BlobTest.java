@@ -33,18 +33,21 @@ public class BlobTest {
     @Test
     public void testBlobCreation() throws IOException {
         Blob blob = new Blob("testBlob.txt");
+        // tests if the blob was made
         assertNotNull(blob);
     }
 
     @Test
     public void testBlobContent() throws IOException {
         Blob blob = new Blob("testBlob.txt");
+        // tests if the blob was made
         assertNotNull(blob);
 
         String fileName = blob.getHash();
 
         String content = decompress("objects/" + fileName);
 
+        // tests if the content in it is correct
         assertEquals("Hello World", content);
     }
 

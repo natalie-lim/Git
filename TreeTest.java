@@ -24,8 +24,10 @@ public class TreeTest {
         tree.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.add("tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976");
 
+        // makes sure hash is correct
         assertEquals("649a3d7f1b034f8ec9954b7411c63818475b2385", tree.getHash());
 
+        // tests if content is right
         assertEquals(
                 "blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt\n" + //
                         "blob : 01d82591292494afd1602d175e165f94992f6f5f : file2.txt\n" + //
@@ -52,8 +54,10 @@ public class TreeTest {
         tree.remove("bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
         tree.remove("file1.txt");
 
+        // tests hash
         assertEquals("aa3abb9509cfed41b4cda151c92e31bcd054d311", tree.getHash());
 
+        // tests content being rihgt
         assertEquals(
                 "tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976\nblob : 01d82591292494afd1602d175e165f94992f6f5f : file2.txt",
                 Tree.read("objects/" + tree.getHash()));

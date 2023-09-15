@@ -19,6 +19,7 @@ public class IndexTest {
     @BeforeEach
     public void setup() throws IOException {
         Files.write(Paths.get("testBlob.txt"), "Hello World".getBytes());
+        Files.write(Paths.get("testBlob2.txt"), "Goodbye World".getBytes());
 
         deleteDirectory(Paths.get("objects"));
         Files.deleteIfExists(Paths.get("index"));
@@ -28,6 +29,7 @@ public class IndexTest {
     @AfterEach
     public void tearDown() throws IOException {
         Files.deleteIfExists(Paths.get("testBlob.txt"));
+        Files.deleteIfExists(Paths.get("testBlob2.txt"));
         Files.deleteIfExists(Paths.get("index"));
         deleteDirectory(Paths.get("objects"));
     }
@@ -35,6 +37,8 @@ public class IndexTest {
     @Test
     void testInit() {
         index.init();
+
+        // tests if init files are made
 
         assertTrue(new File("index").exists());
         assertTrue(new File("objects").exists());
@@ -46,14 +50,20 @@ public class IndexTest {
         testInit();
 
         index.add("testBlob.txt");
+        index.add("testBlob2.txt");
 
+        // tests if it adds a file
         assertTrue(new File("objects").listFiles().length > 0);
 
-        String indexText = Blob.read(new File("index"));
+        String indexText = Tree.read("index");
 
-        String[] str = indexText.split("\\s+");
+        String[] lineSplit = indexText.split("\\r?\\n");
+        String[] str = lineSplit[0].split("\\s+");
+        String[] str2 = lineSplit[1].split("\\s+");
 
+        // test if the file is added to index
         assertEquals("testBlob.txt", str[0]);
+        assertEquals("testBlob2.txt", str2[0]);
     }
 
     @Test
@@ -69,7 +79,8 @@ public class IndexTest {
 
         String[] str = indexText.split("\\s+");
 
-        assertEquals("", str[0]);
+        // tests that only testBlob2 is in the index
+        assertEquals("testBlob2.txt", str[0]);
     }
 
     private void deleteDirectory(Path path) throws IOException {
