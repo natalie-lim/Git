@@ -7,15 +7,9 @@ import java.io.BufferedWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-<<<<<<< Updated upstream
-public class Index {
-    // initilizes Repository with an index.txt and Objects dir
-    public void init() {
-=======
 public class Index{
-    //initilizes Repository with an index file and objects dir
+    //initilizes Repository with an index.txt and Objects dir
     public void init(){
->>>>>>> Stashed changes
         File index = new File("index");
         if (!index.exists()) {
             Blob.write("index", "");
@@ -25,16 +19,9 @@ public class Index{
             Objects.mkdirs();
         }
     }
-<<<<<<< Updated upstream
 
-    public void add(String fileName) throws IOException {
-        // Creates a Blob of fileName that gets added to Objects
-=======
-    
-    //Adds a blob of fileName to objects and fileName : hash to index
     public void add(String fileName) throws IOException{
         //Creates a Blob of fileName that gets added to Objects
->>>>>>> Stashed changes
         Blob blob = new Blob(fileName);
         if (!checkIfUnique("index", fileName)) {
             System.out.println("File Found");
@@ -49,12 +36,7 @@ public class Index{
         }
     }
 
-<<<<<<< Updated upstream
-    public void remove(String fileName) throws IOException {
-=======
-    //remove a unique fileName : hash pair in index file
     public void remove(String fileName) throws IOException{
->>>>>>> Stashed changes
         File inputFile = new File("index");
         File tempFile = new File("myTempFile.txt");
 
@@ -77,13 +59,7 @@ public class Index{
         boolean successful = tempFile.renameTo(inputFile);
     }
 
-<<<<<<< Updated upstream
-    public boolean checkIfUnique(String fileToSearchIn, String fileToSearch) throws IOException {
-=======
-    //Checks if there is a unique fileName : hash pair in index file
-    //Means that remove doesn't have to check if there is a unique
     public boolean checkIfUnique(String fileToSearchIn, String fileToSearch) throws IOException{
->>>>>>> Stashed changes
         Scanner scan = new Scanner(new File(fileToSearchIn));
         File toRead = new File(fileToSearch);
         String toSearch = fileToSearch + " : " + Blob.encryptThisString(Blob.compress(Blob.read(toRead)));
