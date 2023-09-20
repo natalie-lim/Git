@@ -3,7 +3,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -16,9 +15,9 @@ public class Commit {
     private String date;
     private String summary;
     private Tree tree;
-    private File tempFile;
     private String fileContentsWithoutThird;
     private String fileContents;
+    private Date dateObj;
 
     //A commit constructor takes an optional String of the SHA1 of a parent Commit, and two Strings for author and summary
     public Commit (String author, String summary) throws IOException {
@@ -26,8 +25,8 @@ public class Commit {
         this.author = author;
         this.summary = summary;
         createFile();
-        Date d1 = new Date();
-
+        dateObj = new Date();
+        date = dateObj.toString();
     }
     public Commit (String parent, String author, String summary) throws IOException {
         this.tree = new Tree();
@@ -35,7 +34,9 @@ public class Commit {
         this.author = author;
         this.summary = summary;
         createFile();
-        Date d1 = new Date();
+        dateObj = new Date();
+        date = dateObj.toString();
+
     }
 
     public void setContents() {
@@ -56,9 +57,18 @@ public class Commit {
     }
 
     public void createFile() throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter("objects/" + convertToSha1(fileContentsWithoutThird)));
+        setContents();
+        File file = new File("objects/" + convertToSha1(fileContentsWithoutThird));
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        PrintWriter pw = new PrintWriter(new FileWriter(file));
         pw.print(fileContents);
         pw.close();
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public static String convertToSha1(String fileContents) {
