@@ -58,6 +58,7 @@ public class Commit {
 
     public void createFile() throws IOException {
         setContents();
+        setWithoutContents();
         File file = new File("objects/" + convertToSha1(fileContentsWithoutThird));
         if (!file.exists()) {
             file.createNewFile();
