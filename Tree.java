@@ -8,14 +8,8 @@ public class Tree {
 
     private String hash = "";
 
-    public static void main(String[] args) throws IOException {
-        Tree t = new Tree();
-        t.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
-        t.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
-        t.add("tree : penis");
-        t.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f : file1.txt");
-        t.remove("file1.txt");
-
+    public Tree() throws IOException {
+        add("");
     }
 
     public String getHash() {
@@ -127,7 +121,7 @@ public class Tree {
 
     public static void write(String fileName, byte[] content, String directory, boolean append) {
         try {
-            try (FileOutputStream fos = new FileOutputStream("Objects/" + fileName, append)) {
+            try (FileOutputStream fos = new FileOutputStream("objects/" + fileName, append)) {
                 fos.write(content);
             }
         } catch (IOException e) {
